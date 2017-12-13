@@ -21,7 +21,6 @@ class DefaultStaticImageField(ImageField):
 
     def __init__(self, *args, **kwargs):
         self.static_image_path = kwargs.pop(
-            'default_static_image',
+            'default_image_path',
             getattr(settings, 'DEFAULT_IMAGE_PATH', 'images/no_image.png'))
-        self.static_image_path = kwargs.pop('default_image_path', 'images/no_image.png')
         super().__init__(*args, **kwargs)
