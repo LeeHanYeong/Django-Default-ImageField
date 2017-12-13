@@ -40,3 +40,10 @@ Usage
 
       class Post(models.Model):
         photo = DefaultStaticImageField(blank=True, default_image_path='images/blank.png')
+
+Contributing
+============
+
+As an open source project, we welcome contributions.
+
+The code lives on `github <https://github.com/LeeHanYeong/Django-Default-ImageField>`_.
