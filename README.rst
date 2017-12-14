@@ -8,7 +8,7 @@ Default static file path for Django ImageField
 Setup
 =====
 
-* install it via ``pip install django-default-image-field``
+* install it via ``pip install django-default-imagefield``
 * add it to your settings and it auto-registers itself
   ::
 
