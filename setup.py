@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-default-imagefield',
-    version='0.3',
+    version='0.4',
     description='Default static path for Django ImageField',
     long_description=README,
     author='Lee HanYeong',

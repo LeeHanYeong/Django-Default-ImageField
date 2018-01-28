@@ -29,17 +29,21 @@ Usage
       class Post(models.Model):
         photo = DefaultStaticImageField(blank=True)
 
-* default path is ``images/no_image.png``, you can change it via ``settings.py``
+* default path is ``django_fields/no_image.png`` and is included in the package. you can change it via ``settings.py``
   ::
 
       # settings.py
-      DEFAULT_IMAGE_PATH = 'images/custom_none_image.png'
+      DEFAULT_IMAGE_PATH = 'images/custom_no_image.png'
 
 * or add field attribute ``default_image_path``
   ::
 
       class Post(models.Model):
         photo = DefaultStaticImageField(blank=True, default_image_path='images/blank.png')
+
+* if there is no file in the ``default_image_path`` of the field or ``DEFAULT_IMAGE_PATH`` in settings.py, use the default image built into the package.
+
+* if deploying to a production environment, you must run the ``./manage.py collectstatic`` command to copy the image files included in the package to the static file serving path.
 
 Contributing
 ============

@@ -1,9 +1,13 @@
 from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.db.models.fields.files import ImageFieldFile, ImageField
 
 __all__ = (
     'DefaultStaticImageField',
+    'DefaultStaticImageFieldFile',
 )
+
+DEFAULT_IMAGE_PATH = 'django_fields/no_image.png'
 
 
 class DefaultStaticImageFieldFile(ImageFieldFile):
@@ -13,7 +17,9 @@ class DefaultStaticImageFieldFile(ImageFieldFile):
             return super().url
         except ValueError:
             from django.contrib.staticfiles.storage import staticfiles_storage
-            return staticfiles_storage.url(self.field.static_image_path)
+            if finders.find(self.field.static_image_path):
+                return staticfiles_storage.url(self.field.static_image_path)
+            return staticfiles_storage.url(DEFAULT_IMAGE_PATH)
 
 
 class DefaultStaticImageField(ImageField):
@@ -22,5 +28,5 @@ class DefaultStaticImageField(ImageField):
     def __init__(self, *args, **kwargs):
         self.static_image_path = kwargs.pop(
             'default_image_path',
-            getattr(settings, 'DEFAULT_IMAGE_PATH', 'images/no_image.png'))
+            getattr(settings, 'DEFAULT_IMAGE_PATH', DEFAULT_IMAGE_PATH))
         super().__init__(*args, **kwargs)
