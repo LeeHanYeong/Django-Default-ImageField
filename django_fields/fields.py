@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib.staticfiles import finders
 from django.db.models.fields.files import ImageFieldFile, ImageField
 
 __all__ = (
@@ -17,6 +16,7 @@ class DefaultStaticImageFieldFile(ImageFieldFile):
             return super().url
         except ValueError:
             from django.contrib.staticfiles.storage import staticfiles_storage
+            from django.contrib.staticfiles import finders
             if finders.find(self.field.static_image_path):
                 return staticfiles_storage.url(self.field.static_image_path)
             return staticfiles_storage.url(DEFAULT_IMAGE_PATH)
