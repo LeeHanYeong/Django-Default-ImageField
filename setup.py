@@ -9,13 +9,19 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-default-imagefield',
-    version='0.5',
+    version='0.5.1',
     description='Default static path for Django ImageField',
     long_description=README,
     author='Lee HanYeong',
     author_email='dev@lhy.kr',
     license='MIT',
     packages=['django_fields'],
+    package_data={
+      'django_fields': [
+          'static/*',
+          'static/**/*',
+      ],
+    },
     url='https://github.com/LeeHanYeong/Django-Default-ImageField',
     zip_safe=False,
     scripts=['bin/django-fields'],
