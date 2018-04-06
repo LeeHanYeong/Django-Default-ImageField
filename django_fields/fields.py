@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db.models.fields.files import ImageFieldFile, ImageField
+from django.utils.module_loading import import_string
 
 __all__ = (
     'DefaultStaticImageField',
@@ -10,23 +11,20 @@ DEFAULT_IMAGE_PATH = 'django_fields/no_image.png'
 
 
 class DefaultStaticImageFieldFile(ImageFieldFile):
-    @property
-    def url(self):
-        try:
-            return super().url
-        except ValueError:
-            from django.contrib.staticfiles.storage import staticfiles_storage
-            from django.contrib.staticfiles import finders
-            if finders.find(self.field.static_image_path):
-                return staticfiles_storage.url(self.field.static_image_path)
-            return staticfiles_storage.url(DEFAULT_IMAGE_PATH)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.field.static_image_path and (
+                not self.name or self.name == self.field.static_image_path):
+            self.name = self.field.static_image_path
+            self.storage = import_string(settings.STATICFILES_STORAGE)()
+            # disable delete and save methods
+            del self.delete
+            del self.save
 
 
 class DefaultStaticImageField(ImageField):
     attr_class = DefaultStaticImageFieldFile
 
     def __init__(self, *args, **kwargs):
-        self.static_image_path = kwargs.pop(
-            'default_image_path',
-            getattr(settings, 'DEFAULT_IMAGE_PATH', DEFAULT_IMAGE_PATH))
+        self.static_image_path = kwargs.pop('default_image_path', DEFAULT_IMAGE_PATH)
         super().__init__(*args, **kwargs)
