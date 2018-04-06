@@ -13,8 +13,8 @@ DEFAULT_IMAGE_PATH = 'django_fields/no_image.png'
 class DefaultStaticImageFieldFile(ImageFieldFile):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.field.static_image_path and (
-                not self.name or self.name == self.field.static_image_path):
+        if self.field.default_image_path and (
+                not self.name or self.name == self.field.default_image_path):
             self.name = self.field.static_image_path
             self.storage = import_string(settings.STATICFILES_STORAGE)()
             # disable delete and save methods
